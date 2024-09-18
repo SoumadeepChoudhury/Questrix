@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		C22106A82C9AB5BE000C6374 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C221068E2C9AB5BC000C6374 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C22106952C9AB5BC000C6374;
+			remoteInfo = Questrix;
+		};
+		C22106B22C9AB5BE000C6374 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C221068E2C9AB5BC000C6374 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C22106952C9AB5BC000C6374;
+			remoteInfo = Questrix;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C22106962C9AB5BC000C6374 /* Questrix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Questrix.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C22106A72C9AB5BE000C6374 /* QuestrixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuestrixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C22106B12C9AB5BE000C6374 /* QuestrixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuestrixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C22106982C9AB5BC000C6374 /* Questrix */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Questrix;
+			sourceTree = "<group>";
+		};
+		C22106AA2C9AB5BE000C6374 /* QuestrixTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = QuestrixTests;
+			sourceTree = "<group>";
+		};
+		C22106B42C9AB5BE000C6374 /* QuestrixUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = QuestrixUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C22106932C9AB5BC000C6374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106A42C9AB5BE000C6374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106AE2C9AB5BE000C6374 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C221068D2C9AB5BC000C6374 = {
+			isa = PBXGroup;
+			children = (
+				C22106982C9AB5BC000C6374 /* Questrix */,
+				C22106AA2C9AB5BE000C6374 /* QuestrixTests */,
+				C22106B42C9AB5BE000C6374 /* QuestrixUITests */,
+				C22106972C9AB5BC000C6374 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C22106972C9AB5BC000C6374 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C22106962C9AB5BC000C6374 /* Questrix.app */,
+				C22106A72C9AB5BE000C6374 /* QuestrixTests.xctest */,
+				C22106B12C9AB5BE000C6374 /* QuestrixUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C22106952C9AB5BC000C6374 /* Questrix */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C22106BB2C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "Questrix" */;
+			buildPhases = (
+				C22106922C9AB5BC000C6374 /* Sources */,
+				C22106932C9AB5BC000C6374 /* Frameworks */,
+				C22106942C9AB5BC000C6374 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C22106982C9AB5BC000C6374 /* Questrix */,
+			);
+			name = Questrix;
+			packageProductDependencies = (
+			);
+			productName = Questrix;
+			productReference = C22106962C9AB5BC000C6374 /* Questrix.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C22106A62C9AB5BE000C6374 /* QuestrixTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C22106BE2C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "QuestrixTests" */;
+			buildPhases = (
+				C22106A32C9AB5BE000C6374 /* Sources */,
+				C22106A42C9AB5BE000C6374 /* Frameworks */,
+				C22106A52C9AB5BE000C6374 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C22106A92C9AB5BE000C6374 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C22106AA2C9AB5BE000C6374 /* QuestrixTests */,
+			);
+			name = QuestrixTests;
+			packageProductDependencies = (
+			);
+			productName = QuestrixTests;
+			productReference = C22106A72C9AB5BE000C6374 /* QuestrixTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C22106B02C9AB5BE000C6374 /* QuestrixUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C22106C12C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "QuestrixUITests" */;
+			buildPhases = (
+				C22106AD2C9AB5BE000C6374 /* Sources */,
+				C22106AE2C9AB5BE000C6374 /* Frameworks */,
+				C22106AF2C9AB5BE000C6374 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C22106B32C9AB5BE000C6374 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C22106B42C9AB5BE000C6374 /* QuestrixUITests */,
+			);
+			name = QuestrixUITests;
+			packageProductDependencies = (
+			);
+			productName = QuestrixUITests;
+			productReference = C22106B12C9AB5BE000C6374 /* QuestrixUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C221068E2C9AB5BC000C6374 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					C22106952C9AB5BC000C6374 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					C22106A62C9AB5BE000C6374 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = C22106952C9AB5BC000C6374;
+					};
+					C22106B02C9AB5BE000C6374 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = C22106952C9AB5BC000C6374;
+					};
+				};
+			};
+			buildConfigurationList = C22106912C9AB5BC000C6374 /* Build configuration list for PBXProject "Questrix" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C221068D2C9AB5BC000C6374;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C22106972C9AB5BC000C6374 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C22106952C9AB5BC000C6374 /* Questrix */,
+				C22106A62C9AB5BE000C6374 /* QuestrixTests */,
+				C22106B02C9AB5BE000C6374 /* QuestrixUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C22106942C9AB5BC000C6374 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106A52C9AB5BE000C6374 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106AF2C9AB5BE000C6374 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C22106922C9AB5BC000C6374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106A32C9AB5BE000C6374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C22106AD2C9AB5BE000C6374 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C22106A92C9AB5BE000C6374 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C22106952C9AB5BC000C6374 /* Questrix */;
+			targetProxy = C22106A82C9AB5BE000C6374 /* PBXContainerItemProxy */;
+		};
+		C22106B32C9AB5BE000C6374 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C22106952C9AB5BC000C6374 /* Questrix */;
+			targetProxy = C22106B22C9AB5BE000C6374 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C22106B92C9AB5BE000C6374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C22106BA2C9AB5BE000C6374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		C22106BC2C9AB5BE000C6374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Questrix/Questrix.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Questrix/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.Questrix;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C22106BD2C9AB5BE000C6374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Questrix/Questrix.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Questrix/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.Questrix;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C22106BF2C9AB5BE000C6374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.QuestrixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Questrix.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Questrix";
+			};
+			name = Debug;
+		};
+		C22106C02C9AB5BE000C6374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.QuestrixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Questrix.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Questrix";
+			};
+			name = Release;
+		};
+		C22106C22C9AB5BE000C6374 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.QuestrixUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Questrix;
+			};
+			name = Debug;
+		};
+		C22106C32C9AB5BE000C6374 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.QuestrixUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Questrix;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C22106912C9AB5BC000C6374 /* Build configuration list for PBXProject "Questrix" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C22106B92C9AB5BE000C6374 /* Debug */,
+				C22106BA2C9AB5BE000C6374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C22106BB2C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "Questrix" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C22106BC2C9AB5BE000C6374 /* Debug */,
+				C22106BD2C9AB5BE000C6374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C22106BE2C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "QuestrixTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C22106BF2C9AB5BE000C6374 /* Debug */,
+				C22106C02C9AB5BE000C6374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C22106C12C9AB5BE000C6374 /* Build configuration list for PBXNativeTarget "QuestrixUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C22106C22C9AB5BE000C6374 /* Debug */,
+				C22106C32C9AB5BE000C6374 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C221068E2C9AB5BC000C6374 /* Project object */;
+}
