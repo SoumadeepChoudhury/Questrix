@@ -35,45 +35,25 @@ class FileManagement {
 
     func setUser(userName: String = "") {
         do {
-            var user: [String] = try FileManager.default.contentsOfDirectory(
-                atPath: self.masterDirectory.path)
-            if user.contains(".DS_Store"){
-                user.removeAll(where: { $0 == ".DS_Store" })
-                user.removeAll(where: { $0 == ".resultData" })
-                user.removeAll(where: { $0 == ".bookmarkData" })
-            }
-            if user.isEmpty {
-                self.masterDirectory = self.masterDirectory
-                    .appendingPathComponent(
-                        "." + self.USER.UserName.lowercased(), isDirectory: true
-                    )
-            } else {
-                if userName == "" || userName == "User" {
-                    self.masterDirectory = self.masterDirectory
-                        .appendingPathComponent(user[0], isDirectory: true)
-                    //Improvising User Name
-                    self.USER.UserName =
-                        user[0].replacingOccurrences(of: ".", with: "")
-                        .replacingOccurrences(of: "_", with: " ").capitalized
-                } else {
-
-                    let finalPath = self.masterDirectory.path
-                        .replacingOccurrences(
-                            of: self.USER.UserName.replacingOccurrences(
-                                of: " ", with: "_"
-                            ).lowercased(),
-                            with: userName.replacingOccurrences(
-                                of: " ", with: "_"
-                            ).lowercased())
-
-                    self.USER.UserName = userName
-
-                    //rename existing file
-                    try FileManager.default.moveItem(
-                        atPath: self.masterDirectory.path, toPath: finalPath)
-                    self.masterDirectory = URL(string: finalPath)!
-
+            if userName.isEmpty {
+                var content = try FileManager.default.contentsOfDirectory(atPath: self.masterDirectory.path)
+                content.removeAll(where: { $0 == (".DS_Store") })
+                content.removeAll(where: { $0 == (".resultData") })
+                content.removeAll(where: { $0 == (".bookmarkData") })
+                if content.isEmpty {
+                    self.masterDirectory = self.masterDirectory.appendingPathComponent(".user")
+                }else{
+                    self.masterDirectory = self.masterDirectory.appendingPathComponent(content[0])
+                    var displayName = content[0].replacingOccurrences(of: "_", with: " ").capitalized
+                    self.USER.UserName = displayName.replacingOccurrences(of: ".", with: "")
+                    
                 }
+            }else{
+                var improvedUserName = userName.replacingOccurrences(of: " ", with: "_").lowercased()
+                var finalPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".\(improvedUserName)")
+                try FileManager.default.moveItem(at: self.masterDirectory, to: finalPath)
+                self.masterDirectory = finalPath
+                self.USER.UserName = userName
             }
         } catch {
             print(error.localizedDescription)
