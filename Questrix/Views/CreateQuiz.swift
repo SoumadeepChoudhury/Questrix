@@ -34,7 +34,7 @@ struct CreateQuiz: View {
     @State var isConfirmQuestionAddedAlertDisplayed: Bool = false
     @State var enterCourseToSaveAsDraft: Bool = false
     @State var confirmSaveAsDraft: Bool = false
-    @State var isRefferedFromEdit: Bool = ContentView.fileManager.isRefferedFromEdit
+//    @State var isRefferedFromEdit: Bool = ContentView.fileManager.isRefferedFromEdit
     @State var isPresent: Bool = false
     
     var body: some View {
@@ -43,7 +43,7 @@ struct CreateQuiz: View {
             
             //DateTime
             DateTime().onAppear(perform: {
-                if(isRefferedFromEdit){
+                if(ContentView.fileManager.isRefferedFromEdit){
                     selectedCourse = ContentView.fileManager.getDataFromDraft(item: "Course") as! String
                     title = ContentView.fileManager.getDataFromDraft(item: "Title") as! String
                     description = ContentView.fileManager.getDataFromDraft(item: "Description") as! String
@@ -60,16 +60,6 @@ struct CreateQuiz: View {
                 }
             }).alert("Confirm Save as Draft", isPresented: $confirmSaveAsDraft, actions: {
                 Button("Ok"){
-//                    var rep_limit: String = ""
-//                    if(isUnlimitedRep){
-//                        let _ = rep_limit = "UL"
-//                    }else if(isLimitedRep){
-//                        let _ = rep_limit = "L\(limit)"
-//                    }
-//                    else if(isNoRep){
-//                        let _ = rep_limit = "S"
-//                    }
-//                    ContentView.fileManager.createQuiz(course: selectedCourse,title: title,description: description,questionData: questionData,isRandomAllowed: isRandomAllowed,duration: duration != "" ? Int(duration)! : 0,rep_limit: rep_limit,publishDate: publishDate,isDrafted: true)
                     ContentView.fileManager.createQuiz(course: selectedCourse,title: title,description: description,questionData: questionData,duration: duration != "" ? Int(duration)! : 0,publishDate: publishDate,isDrafted: true)
                     confirmSaveAsDraft.toggle()
                 }
@@ -134,16 +124,6 @@ struct CreateQuiz: View {
                     if(step == 4) {
                         step = 2;
                         if(!title.isEmpty && !selectedCourse.isEmpty && selectedCourse != "Select Course..." && !questionData.isEmpty && publishStatus != "Select..."){
-//                            var rep_limit: String = ""
-//                            if(isUnlimitedRep){
-//                                rep_limit = "UL"
-//                            }else if(isLimitedRep){
-//                                rep_limit = "L\(limit)"
-//                            }
-//                            else if(isNoRep){
-//                                rep_limit = "S"
-//                            }
-//                            ContentView.fileManager.createQuiz(course: selectedCourse,title: title,description: description,questionData: questionData,isRandomAllowed: isRandomAllowed,duration: Int(duration)!,rep_limit: rep_limit,publishDate: publishDate);
                             ContentView.fileManager.createQuiz(course: selectedCourse,title: title,description: description,questionData: questionData,duration: Int(duration)!,publishDate: publishDate);
                             ContentView.fileManager.isRefferedFromEdit = false
                         }
@@ -163,7 +143,7 @@ struct CreateQuiz: View {
                     else if(step == 2){
                         if(!title.isEmpty){
                             for quiz in QUIZARRAY.quizzes{
-                                if(quiz.title == title){
+                                if(quiz.title == title && !ContentView.fileManager.isRefferedFromEdit){
                                     isPresent = true
                                     break
                                 }

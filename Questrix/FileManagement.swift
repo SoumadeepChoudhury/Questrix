@@ -44,13 +44,13 @@ class FileManagement {
                     self.masterDirectory = self.masterDirectory.appendingPathComponent(".user")
                 }else{
                     self.masterDirectory = self.masterDirectory.appendingPathComponent(content[0])
-                    var displayName = content[0].replacingOccurrences(of: "_", with: " ").capitalized
+                    let displayName = content[0].replacingOccurrences(of: "_", with: " ").capitalized
                     self.USER.UserName = displayName.replacingOccurrences(of: ".", with: "")
                     
                 }
             }else{
-                var improvedUserName = userName.replacingOccurrences(of: " ", with: "_").lowercased()
-                var finalPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".\(improvedUserName)")
+                let improvedUserName = userName.replacingOccurrences(of: " ", with: "_").lowercased()
+                let finalPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".\(improvedUserName)")
                 try FileManager.default.moveItem(at: self.masterDirectory, to: finalPath)
                 self.masterDirectory = finalPath
                 self.USER.UserName = userName

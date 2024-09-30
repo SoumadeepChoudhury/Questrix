@@ -11,12 +11,7 @@ struct Settings: View {
     
     @Environment(\.colorScheme) var colorScheme
 
-//    @Binding var isRandomAllowed: Bool
     @Binding var duration: String
-//    @Binding var isUnlimitedRep: Bool
-//    @Binding var isLimitedRep: Bool
-//    @Binding var isNoRep: Bool
-//    @Binding var limit: String
     @Binding var publishStatus: String
     @Binding var publishDate: Date
     
@@ -30,17 +25,9 @@ struct Settings: View {
             Divider()
 
         }
-        //Duration , Repetition, Publishing Setting
+        //Duration , Publishing Setting
         ScrollView {
             VStack(alignment: .leading) {
-                //Randomization
-//                GroupBox {
-//                    HStack {
-//                        Toggle(
-//                            "Randomization of Questions",
-//                            isOn: $isRandomAllowed)
-//                    }
-//                }
                 
                 GroupBox {
                     VStack(alignment: .leading) {
@@ -54,51 +41,6 @@ struct Settings: View {
                             Text("min")
                         }.padding(.bottom)
                         Divider()
-                        
-                        //Repetition
-//                        VStack(alignment: .leading) {
-//                            Text("Repetition").font(.title2).padding(.bottom)
-//                            Button(
-//                                action: {
-//                                    isUnlimitedRep = true
-//                                    isLimitedRep = false
-//                                    isNoRep = false
-//                                },
-//                                label: {
-//                                    Image(systemName: !isUnlimitedRep ? "circle" : "inset.filled.circle").foregroundStyle(isUnlimitedRep ? .blue : (colorScheme == .light ? .black : .white))
-//                                    Text("Unlimited Repetition")
-//                                }
-//                            ).buttonStyle(.plain)
-//
-//                            Button(
-//                                action: {
-//                                    isUnlimitedRep = false
-//                                    isLimitedRep = true
-//                                    isNoRep = false
-//                                },
-//                                label: {
-//                                    Image(systemName: !isLimitedRep ? "circle" : "inset.filled.circle").foregroundStyle(isLimitedRep ? .blue : (colorScheme == .light ? .black : .white))
-//                                    Text("Limited Repetition:")
-//                                    TextField("$", text: $limit).disabled(!isLimitedRep).textFieldStyle(
-//                                        .roundedBorder
-//                                    ).frame(width: 50)
-//                                }
-//                            ).buttonStyle(.plain)
-//
-//                            Button(
-//                                action: {
-//                                    isUnlimitedRep = false
-//                                    isLimitedRep = false
-//                                    isNoRep = true
-//                                },
-//                                label: {
-//                                    Image(systemName: !isNoRep ? "circle" : "inset.filled.circle").foregroundStyle(isNoRep ? .blue : (colorScheme == .light ? .black : .white))
-//                                    Text("Single time - No Repetition")
-//                                }
-//                            ).buttonStyle(.plain)
-//
-//                        }.padding(.bottom)
-//                        Divider()
                         
                         //Publishing Status
                         VStack(alignment: .leading) {

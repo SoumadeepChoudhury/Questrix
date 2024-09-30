@@ -122,6 +122,7 @@ struct QuestionBox: View {
                                     Button(
                                         action: {
                                             questionType = "Text Based Question"
+                                            isFileAttached = false
                                         },
                                         label: {
                                             Text("Text Based Question")
