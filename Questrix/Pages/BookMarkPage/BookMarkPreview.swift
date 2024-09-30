@@ -63,6 +63,9 @@ struct RightPane: View {
     
     @State var correctAnswer: String = ""
     @State var nextOrClose: String = "Next"
+    @State var attachedFileURL: String = ""
+    @State var additionalFileIconName: String = "play.circle"
+    @State var AUDIOPLAYER: AudioPlayer = AudioPlayer()
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -81,17 +84,39 @@ struct RightPane: View {
                                 0.8
                             ).padding(.bottom, 5).onAppear(perform: {
                                 correctAnswer = STARTQUIZ.questionData[questionCounter]["correct_answer"] as! String
+                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String
+                                if(attachedFileURL.contains(".wav")){
+                                    AUDIOPLAYER = AudioPlayer(filePath: attachedFileURL)
+                                }
                             }).onChange(of: questionCounter, {
-//                                isAllQuestionCompleted = false
+//                                AUDIOPLAYER.stopEngine()
+                                correctAnswer = STARTQUIZ.questionData[questionCounter]["correct_answer"] as! String
+                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String
+                                if(attachedFileURL.contains(".wav")){
+                                    AUDIOPLAYER = AudioPlayer(filePath: attachedFileURL)
+                                }
                             })
                             Spacer()
                         }
                         Text(STARTQUIZ.questionData[questionCounter]["question"] as! String).font(.title).padding(
                             .bottom)
-                        if((STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String).contains(".jpeg") || (STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String).contains(".jpg") || (STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String).contains(".png")){
-                            Image(systemName: "figure.seated.side.air.windshield")
-                                .resizable().frame(width: 200, height: 200)
+                        if(attachedFileURL.contains(".jpeg") || attachedFileURL.contains(".jpg") || attachedFileURL.contains(".png")){
+                            Image(nsImage: NSImage(contentsOfFile: attachedFileURL)!)
+                                .resizable().frame(width: 200, height: 200).clipShape(RoundedRectangle(cornerRadius: 10,style: .continuous))
+                        }else if(attachedFileURL.contains(".wav")){
+                            //Show the player option -> Done
+                            Image(systemName: additionalFileIconName).resizable().frame(width:50, height: 50).onTapGesture(perform: {
+                                if(additionalFileIconName == "play.circle"){
+                                    AUDIOPLAYER.play()
+                                    additionalFileIconName = "pause.circle"
+                                }else if additionalFileIconName == "pause.circle"{
+                                    AUDIOPLAYER.pause()
+                                    additionalFileIconName = "play.circle"
+                                }
+                            })
                         }
+                        
+                        
                         Divider().padding(.bottom)
                         if(!(STARTQUIZ.questionData[questionCounter]["answer_options"] as! [String]).isEmpty){
                             ForEach(0..<(STARTQUIZ.questionData[questionCounter]["answer_options"] as! [String]).count,id: \.self) { index in

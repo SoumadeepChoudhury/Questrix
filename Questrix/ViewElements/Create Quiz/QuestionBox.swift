@@ -41,7 +41,8 @@ struct QuestionBox: View {
                 Text("Question \(questionCounter)").font(.title2).padding(.bottom).onChange(of: questionCounter, {
                     questionType = "Select..."
                     answerType = "Select..."
-                    AUDIOPLAYER.stopEngine()
+                    additionFileIconName = "waveform"
+//                    AUDIOPLAYER.stopEngine()
                 })
                 ScrollView {
                     VStack(alignment: .leading){
@@ -112,7 +113,6 @@ struct QuestionBox: View {
                         }
                         //Display File
                         if(!attachedFileURL.isEmpty && !attachedFileURL.contains(".wav")){
-                            let _ = print(attachedFileURL)
                             Image(nsImage: NSImage(contentsOfFile: attachedFileURL)!).resizable().frame(width: 100,height: 100).clipShape(RoundedRectangle(cornerRadius: 10,style: .continuous))
                         }
                         HStack {

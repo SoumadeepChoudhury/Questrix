@@ -84,7 +84,7 @@ struct DetailBar: View {
                             duration = "\(quizData["Duration"] as! Int)"
                             desc = quizData["Description"] as! String
                             questionDataSet = quizData["QuestionData"] as! [[String:Any]]
-                            ContentView.fileManager.getBookmarks(BOOKMARK: BOOKMARK)
+                            ContentView.fileManager.getBookmarks()
                             isBookmarked = Array(repeating: false, count: questionDataSet.count)
                             for item in questionDataSet{
                                 for item1 in BOOKMARK.bookmarks{
@@ -186,7 +186,8 @@ struct DetailBar: View {
                                 AUDIOPLAYER = AudioPlayer(filePath: questionData[questionCounter].attachedFileURL)
                             }
                         }).onChange(of: questionCounter, {
-                            AUDIOPLAYER.stopEngine()
+//                            AUDIOPLAYER.stopEngine()
+                            print(questionData[questionCounter].attachedFileURL)
                             if(questionData[questionCounter].attachedFileURL.contains(".wav")){
                                 AUDIOPLAYER = AudioPlayer(filePath: questionData[questionCounter].attachedFileURL)
                             }
@@ -285,7 +286,7 @@ struct DetailBar: View {
                                         isSubmitted = true
                                         checkAnswers()
                                     }else{
-                                        ContentView.fileManager.updateBookmarks(course: STARTQUIZ.course,title: STARTQUIZ.title,desc: desc,bookmarkedQuestions: bookmarkedQuestionsSet,BOOKMARK: BOOKMARK)
+                                        ContentView.fileManager.updateBookmarks(course: STARTQUIZ.course,title: STARTQUIZ.title,desc: desc,bookmarkedQuestions: bookmarkedQuestionsSet)
                                         dismissWindow(id: "PractisePage")
                                     }
                                 }.buttonStyle(.plain).padding().foregroundStyle(STARTQUIZ.isReview ? .red : .green)

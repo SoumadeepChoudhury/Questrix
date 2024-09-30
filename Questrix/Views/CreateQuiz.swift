@@ -131,9 +131,6 @@ struct CreateQuiz: View {
                         description = "";
                         questionData = [];
                         duration = "";
-//                        isUnlimitedRep = false;
-//                        isLimitedRep = false;
-//                        isNoRep = false;
                         publishStatus = "Select...";
                         publishDate = Date();
                     }

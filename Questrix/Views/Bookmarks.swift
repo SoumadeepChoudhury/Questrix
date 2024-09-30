@@ -27,7 +27,7 @@ struct Bookmarks: View {
         VStack{
             //DateTime
             DateTime().onAppear(perform: {
-                ContentView.fileManager.getBookmarks(BOOKMARK: BOOKMARK)
+                ContentView.fileManager.getBookmarks()
                 BOOKMARK.bookmarks.forEach({ item in
                     if !coursesPresent.contains(item.course){
                         coursesPresent.append(item.course)

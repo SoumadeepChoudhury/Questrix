@@ -8,22 +8,25 @@
 import SwiftUI
 
 class FileManagement {
+    
     var masterDirectory: URL
     var COURSESARRAY: CoursesArray
     var USER: User
     var QUIZARRAY: QuizArray
+    var BOOKMARK: BookmarkData
     var isRefferedFromEdit: Bool
     var draftDataSet: [String:Any]
     var reDraftedCourseName: String
     var reDraftedTitle: String
 
-    init(coursesArray: CoursesArray = CoursesArray(), quizArray: QuizArray = QuizArray(), user: User = User()) {
+    init(coursesArray: CoursesArray = CoursesArray(), quizArray: QuizArray = QuizArray(), user: User = User(),bookmark: BookmarkData = BookmarkData()) {
         self.masterDirectory =
             FileManager.default.urls(
                 for: .documentDirectory, in: .userDomainMask)[0]
         self.COURSESARRAY = coursesArray
         self.QUIZARRAY = quizArray
         self.USER = user
+        self.BOOKMARK = bookmark
         self.isRefferedFromEdit = false
         self.draftDataSet = Dictionary()
         self.reDraftedCourseName = ""
@@ -93,21 +96,24 @@ class FileManagement {
         title: String,
         description: String,
         questionData: [[String: Any]],
-//        isRandomAllowed: Bool,
         duration: Int,
-//        rep_limit: String,  Rep + Limit -> Needs Formatting
         publishDate: Date,
         isDrafted: Bool = false
     ) {
         do {
+            let tempListOfQuizzes = try FileManager.default.contentsOfDirectory(atPath: self.masterDirectory.path + "/\(course)")
+            for q in tempListOfQuizzes {
+                if(q.contains(title) && !q.starts(with: ".")){
+                    self.deleteQuiz(course: course, title: title)
+                }
+                break
+            }
             let dataDictionary: [String: Any] = [
                 "Course": course,
                 "Title": title,
                 "Description": description,
                 "QuestionData": questionData,
-//                "isRandomAllowed": isRandomAllowed,
                 "Duration": duration,
-//                "RepLimit": rep_limit,
                 "PublishDate": publishDate,
             ]
             let filePath =
@@ -316,20 +322,9 @@ class FileManagement {
         do {
             var filePath = self.masterDirectory.path + "/\(course)/"
             let contents = try FileManager.default.contentsOfDirectory(
-                atPath: self.masterDirectory.path + "/\(course)")
+                atPath: filePath)
             for content in contents {
-//                if(content == "\(title).attempted"){
-//                    for c in contents{
-//                        var fPath = ""
-//                        if(c.starts(with: ".") && c.contains(title)){
-//                            fPath += self.masterDirectory.path + "/\(course)/\(c)"
-//                            try FileManager.default.removeItem(atPath: fPath)
-//                        }
-//                    }
-//                    filePath += content
-//                    break
-//                }
-                 if content.contains(title) && !content.starts(with: "."){
+                if content.contains(title) && !content.starts(with: "."){
                      if !isSubmitted {
                          for c in contents{
                              var fPath = ""
@@ -348,6 +343,7 @@ class FileManagement {
                 try FileManager.default.removeItem(atPath: filePath)
                 self.getAllQuizzes()
                 self.getCourses()
+                self.updateBookmarks(course: course, title: title, desc: "", bookmarkedQuestions: [])
             }
         } catch {
             print(error.localizedDescription)
@@ -487,7 +483,7 @@ class FileManagement {
     }
     
     
-    func updateBookmarks(course: String,title: String,desc: String,bookmarkedQuestions: [[String:Any]],BOOKMARK: BookmarkData){
+    func updateBookmarks(course: String,title: String,desc: String,bookmarkedQuestions: [[String:Any]]){
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".bookmarkData").path
         var existingData: [[String:Any]] = []
         var done: Bool = false
@@ -519,21 +515,21 @@ class FileManagement {
             try NSKeyedArchiver.archivedData(
                 withRootObject: existingData, requiringSecureCoding: false
             ).write(to: URL(fileURLWithPath: filePath))
-            getBookmarks(BOOKMARK: BOOKMARK)
+            getBookmarks()
         }catch{
             print(error.localizedDescription)
         }
     }
     
-    func getBookmarks(BOOKMARK: BookmarkData){
+    func getBookmarks(){
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".bookmarkData").path
         //get data by unarchiving
         if(FileManager.default.fileExists(atPath: filePath)){
             let data: [[String:Any]] = (NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? [[String:Any]])!
-            BOOKMARK.bookmarks = []
+            self.BOOKMARK.bookmarks = []
             for item in data{
                 if(!(item["QuestionData"] as! [[String:Any]]).isEmpty){
-                    BOOKMARK.bookmarks.append(Bookmark(course: item["Course"] as! String, title: item["Title"] as! String, questionData: item["QuestionData"] as! [[String:Any]]))
+                    self.BOOKMARK.bookmarks.append(Bookmark(course: item["Course"] as! String, title: item["Title"] as! String, questionData: item["QuestionData"] as! [[String:Any]]))
                 }
             }
         }

@@ -61,13 +61,24 @@ struct AddQuestions: View {
                                 ext = "jpg"
                             }
                             ContentView.fileManager.saveImage(filePath: attachedFileURL,course: course,title: title,number: questionCounter, ext: ext)
-                            attachedFileURL = ContentView.fileManager.masterDirectory.path+"/\(course)/.\(title)_image_\(questionCounter).\(ext)"
+                            
                         }
                         self.isTappedOnAdd.toggle()
                     }.alert(isEmptyFieldPresnt ? "Empty Fields Present" : "Are you Sure, you wanna add this question to the Quiz? Cannot be edited later.", isPresented: $isTappedOnAdd) {
                         
                         if(!isEmptyFieldPresnt){
                             Button("Add") {
+                                var ext = ""
+                                if(attachedFileURL.contains("png")){
+                                    ext = "png"
+                                }else if(attachedFileURL.contains("jpeg")){
+                                    ext = "jpeg"
+                                }else if(attachedFileURL.contains("jpg")){
+                                    ext = "jpg"
+                                }
+                                if(!ext.isEmpty){
+                                    attachedFileURL = ContentView.fileManager.masterDirectory.path + "/\(course)/.\(title)_image_\(questionCounter).\(ext)"
+                                }
                                 questionData.append([
                                     "question" : question,
                                     "attached_file_url" : attachedFileURL,
