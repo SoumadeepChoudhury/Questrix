@@ -287,6 +287,7 @@ struct DetailBar: View {
                                         checkAnswers()
                                     }else{
                                         ContentView.fileManager.updateBookmarks(course: STARTQUIZ.course,title: STARTQUIZ.title,desc: desc,bookmarkedQuestions: bookmarkedQuestionsSet)
+                                        STARTQUIZ.isReview = false
                                         dismissWindow(id: "PractisePage")
                                     }
                                 }.buttonStyle(.plain).padding().foregroundStyle(STARTQUIZ.isReview ? .red : .green)

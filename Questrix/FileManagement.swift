@@ -105,8 +105,8 @@ class FileManagement {
             for q in tempListOfQuizzes {
                 if(q.contains(title) && !q.starts(with: ".")){
                     self.deleteQuiz(course: course, title: title)
+                    break
                 }
-                break
             }
             let dataDictionary: [String: Any] = [
                 "Course": course,
@@ -307,8 +307,10 @@ class FileManagement {
                 try FileManager.default.removeItem(
                     atPath: self.masterDirectory.path + "/\(courseName)")
                 isDeleted = true
-                COURSESARRAY.courses.removeAll(where: { $0.title == courseName }
-                )
+                COURSESARRAY.courses.removeAll(where: { $0.title == courseName })
+                self.getAllQuizzes()
+                self.updateBookmarks(course: courseName, title: "", desc: "", bookmarkedQuestions: [], isCourseDeleted: true)
+
             }
         } catch {
             isDeleted = false
@@ -483,7 +485,7 @@ class FileManagement {
     }
     
     
-    func updateBookmarks(course: String,title: String,desc: String,bookmarkedQuestions: [[String:Any]]){
+    func updateBookmarks(course: String,title: String,desc: String,bookmarkedQuestions: [[String:Any]],isCourseDeleted: Bool = false){
         let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(".bookmarkData").path
         var existingData: [[String:Any]] = []
         var done: Bool = false
@@ -494,13 +496,19 @@ class FileManagement {
             }
             //Append Data with the existing
             for index in 0..<existingData.count{
-                if(existingData[index]["Course"] as! String == course && existingData[index]["Title"] as! String == title){
+                if isCourseDeleted && existingData[index]["Course"] as! String == course{
+                    existingData.remove(at: index)
+                    done = true
+                    break
+                }
+                else if(existingData[index]["Course"] as! String == course && existingData[index]["Title"] as! String == title){
                     if(bookmarkedQuestions.isEmpty){
                         existingData.remove(at: index)
                     }else{
                         existingData[index]["QuestionData"] = bookmarkedQuestions
                     }
                     done = true
+                    break
                 }
             }
             if !done && !bookmarkedQuestions.isEmpty {
