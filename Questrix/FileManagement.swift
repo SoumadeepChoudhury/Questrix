@@ -360,7 +360,7 @@ class FileManagement {
             self.reDraftedTitle = title
             let data = self.getQuizData(courseName: course, title: title, ext: "draft")
             
-            //Append in Dictionary
+            //Append in Draft Dictionary
             self.draftDataSet.updateValue(data["Course"] as! String, forKey: "Course")
             self.draftDataSet.updateValue(data["Title"] as! String, forKey: "Title")
             self.draftDataSet.updateValue(data["Description"] as! String, forKey: "Description")
@@ -444,6 +444,7 @@ class FileManagement {
             var counter: Int = 1
             USER.resultData = []
             USER.activityData = []
+            USER.MyPoints = 0
             var datesAdded: [String] = []
             for item in resultData.reversed(){
                 //Points

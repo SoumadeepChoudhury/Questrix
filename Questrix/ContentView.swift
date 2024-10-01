@@ -17,7 +17,7 @@ struct ContentView: View {
     static var fileManager: FileManagement = FileManagement()
     
     
-    var colorScheme=ColorScheme.dark
+    var colorScheme = ColorScheme.dark
     @State var sideBarVisibility: NavigationSplitViewVisibility = .doubleColumn
     @State var selectedTab:String = "Dashboard"
     
