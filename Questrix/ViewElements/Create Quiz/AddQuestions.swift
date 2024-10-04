@@ -41,7 +41,7 @@ struct AddQuestions: View {
                 GroupBox {
                     Image(systemName: "plus").font(.title).help("Add this Question to the set.").onTapGesture {
                         
-                        if(!question.isEmpty && !points.isEmpty && !correctAnswer.isEmpty){
+                        if(!question.isEmpty && !points.isEmpty && CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: points)) && !correctAnswer.isEmpty){
                             isEmptyFieldPresnt = false
                             
                             if(isFileAttached && attachedFileURL.isEmpty){

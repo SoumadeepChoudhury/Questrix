@@ -397,11 +397,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Questrix/Questrix.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Questrix/Preview Content\"";
+				DEVELOPMENT_TEAM = XJJF2QK56B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Questrix/Info.plist;
@@ -413,7 +414,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.Questrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -428,11 +429,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Questrix/Questrix.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Questrix/Preview Content\"";
+				DEVELOPMENT_TEAM = XJJF2QK56B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Questrix/Info.plist;
@@ -444,7 +446,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ahensinitiative.Questrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

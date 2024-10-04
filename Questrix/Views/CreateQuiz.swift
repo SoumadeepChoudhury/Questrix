@@ -122,17 +122,20 @@ struct CreateQuiz: View {
                     Capsule().stroke(lineWidth: 2).foregroundStyle(.blue)
                 }).onTapGesture {
                     if(step == 4) {
-                        step = 2;
-                        if(!title.isEmpty && !selectedCourse.isEmpty && selectedCourse != "Select Course..." && !questionData.isEmpty && publishStatus != "Select..."){
+                        
+                        if(!title.isEmpty && !selectedCourse.isEmpty && selectedCourse != "Select Course..." && !questionData.isEmpty && publishStatus != "Select..." && !duration.isEmpty && CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: duration))){
                             ContentView.fileManager.createQuiz(course: selectedCourse,title: title,description: description,questionData: questionData,duration: Int(duration)!,publishDate: publishDate);
                             ContentView.fileManager.isRefferedFromEdit = false
+                            
+                            title = "";
+                            description = "";
+                            questionData = [];
+                            duration = "";
+                            publishStatus = "Select...";
+                            publishDate = Date();
+                            
+                            step = 2;
                         }
-                        title = "";
-                        description = "";
-                        questionData = [];
-                        duration = "";
-                        publishStatus = "Select...";
-                        publishDate = Date();
                     }
                     else if(step == 3){
                         isConfirmQuestionAddedAlertDisplayed = true
