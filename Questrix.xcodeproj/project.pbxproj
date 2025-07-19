@@ -271,6 +271,8 @@
 /* Begin XCBuildConfiguration section */
 		C22106B92C9AB5BE000C6374 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C22106982C9AB5BC000C6374 /* Questrix */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -335,6 +337,8 @@
 		};
 		C22106BA2C9AB5BE000C6374 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C22106982C9AB5BC000C6374 /* Questrix */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -392,6 +396,8 @@
 		};
 		C22106BC2C9AB5BE000C6374 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C22106982C9AB5BC000C6374 /* Questrix */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -409,6 +415,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Questrix;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Ahens | An Initiative to Initial";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please Allow in order to record Audio from your microphone.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -424,6 +431,8 @@
 		};
 		C22106BD2C9AB5BE000C6374 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C22106982C9AB5BC000C6374 /* Questrix */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -441,6 +450,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Questrix;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Ahens | An Initiative to Initial";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Please Allow in order to record Audio from your microphone.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

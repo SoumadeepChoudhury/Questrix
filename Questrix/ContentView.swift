@@ -22,6 +22,7 @@ struct ContentView: View {
     @State var selectedTab:String = "Dashboard"
     
     var body: some View {
+//        ApiView()
         NavigationSplitView(columnVisibility: $sideBarVisibility) {
             let SideBar:SideBar=SideBar(selectedTab: self.$selectedTab)
             SideBar.onAppear(perform: {
@@ -61,7 +62,7 @@ struct VisualEffectView: NSViewRepresentable {
 
 
 #Preview {
-    ContentView().environmentObject(CoursesArray())
+    ContentView().environmentObject(CoursesArray()).environmentObject(QuizArray()).environmentObject(User()).environmentObject(BookmarkData())
 }
 
 #Preview {
