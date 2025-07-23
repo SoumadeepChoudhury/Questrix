@@ -21,156 +21,179 @@ struct CreateQuizWithAI: View {
     @State private var generatedQuiz: [String: Any]?
     
     @State private var showErrorModal = false
+    @State var showQuizPreview: Bool = false
+    @State var showError: Bool = false
+    @State var quizIsSaved: Bool = false
     
     private let apiClient = GeminiAPI()
     
     @Environment(\.colorScheme) var colorScheme
     
     let difficulties = ["Easy", "Medium", "Hard"]
+
+    @ViewBuilder
+    func quizContent() -> some View {
+        if let quiz = generatedQuiz, showQuizPreview {
+            GeneratedQuizPreview(quiz: quiz,showQuizPreview: $showQuizPreview,quizIsSaved: $quizIsSaved)
+                .id("bottom")
+        }
+    }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                // Header
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("AI Quiz Generator")
-                        .font(AppFonts.largeTitle)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("AI Quiz Generator")
+                            .font(AppFonts.largeTitle)
+                        
+                        Text("Create quizzes instantly with AI")
+                            .font(AppFonts.title2)
+                            .foregroundColor(AppColors.textSecondary(for: colorScheme))
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Text("Create quizzes instantly with AI")
-                        .font(AppFonts.title2)
-                        .foregroundColor(AppColors.textSecondary(for: colorScheme))
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                // Form
-                VStack(spacing: 20) {
-                    // Course Selection
-                    HStack {
-                        Spacer()
-                        Menu(selectedCourse) {
-                            ForEach(coursesArray.courses) { course in
-                                Button(course.title) {
-                                    selectedCourse = course.title
+                    // Form
+                    VStack(spacing: 20) {
+                        // Course Selection
+                        HStack {
+                            Spacer()
+                            Menu(selectedCourse) {
+                                ForEach(coursesArray.courses) { course in
+                                    Button(course.title) {
+                                        selectedCourse = course.title
+                                    }
+                                }
+                            }   .padding(16)
+                                .frame(width: 200, height: nil, alignment: .leading)
+                                .background(AppColors.cardBackground(for: colorScheme))
+                                .cornerRadius(AppShapes.mediumCornerRadius)
+                        }
+                        
+                        // Quiz Details
+                        VStack(spacing: 16) {
+                            TextField("Quiz Title", text: $title)
+                                .textFieldStyle(PremiumTextFieldStyle())
+                            
+                            TextField("Description", text: $description, axis: .vertical)
+                                .textFieldStyle(PremiumTextFieldStyle())
+                                .frame(minHeight: 80, maxHeight: 120)
+                        }
+                        
+                        // Settings
+                        VStack(spacing: 16) {
+                            Picker("Difficulty", selection: $difficulty) {
+                                ForEach(difficulties, id: \.self) { level in
+                                    Text(level)
                                 }
                             }
-                        }   .padding(16)
-                            .frame(width: 200, height: nil, alignment: .leading)
-                            .background(AppColors.cardBackground(for: colorScheme))
-                            .cornerRadius(AppShapes.mediumCornerRadius)
-                        }
-                    
-                    // Quiz Details
-                    VStack(spacing: 16) {
-                        TextField("Quiz Title", text: $title)
-                            .textFieldStyle(PremiumTextFieldStyle())
-                        
-                        TextField("Description", text: $description, axis: .vertical)
-                            .textFieldStyle(PremiumTextFieldStyle())
-                            .frame(minHeight: 80, maxHeight: 120)
-                    }
-                    
-                    // Settings
-                    VStack(spacing: 16) {
-                        Picker("Difficulty", selection: $difficulty) {
-                            ForEach(difficulties, id: \.self) { level in
-                                Text(level)
+                            .pickerStyle(.segmented)
+                            
+                            Stepper(value: $questionCount, in: 3...20) {
+                                HStack {
+                                    Text("Questions:")
+                                    Text("\(questionCount)")
+                                        .fontWeight(.semibold)
+                                }
                             }
                         }
-                        .pickerStyle(.segmented)
+                        .padding(16)
+                        .background(AppColors.cardBackground(for: colorScheme))
+                        .cornerRadius(AppShapes.mediumCornerRadius)
                         
-                        Stepper(value: $questionCount, in: 3...20) {
+                        
+                        VStack(spacing: 16) {
                             HStack {
-                                Text("Questions:")
-                                Text("\(questionCount)")
-                                    .fontWeight(.semibold)
+                                TextField("Duration", text: $duration)
+                                    .textFieldStyle(PremiumTextFieldStyle())
+                                    .textContentType(.postalCode)
+                                Text("min")
                             }
-                        }
-                    }
-                    .padding(16)
-                    .background(AppColors.cardBackground(for: colorScheme))
-                    .cornerRadius(AppShapes.mediumCornerRadius)
-                    
-                    
-                    VStack(spacing: 16) {
-                        HStack {
-                            TextField("Duration", text: $duration)
-                                .textFieldStyle(PremiumTextFieldStyle())
-                                .textContentType(.postalCode)
-                            Text("min")
+                            
+                            //Publishing Status
+                            VStack(alignment: .leading) {
+                                Text("Publishing Setting").font(.title2).padding(
+                                    .bottom)
+                                Text("Publish Status:").font(.title3)
+                                Menu(publishStatus) {
+                                    Button(
+                                        action: {
+                                            publishStatus = "Schedule"
+                                        },
+                                        label: {
+                                            Text("Schedule")
+                                        })
+                                    
+                                    Button(
+                                        action: {
+                                            publishStatus = "Immediate"
+                                        },
+                                        label: {
+                                            Text("Immediate")
+                                        })
+                                }.frame(width: 200)
+                                    .padding(.bottom)
+                                
+                                Text("Publish Date:")
+                                
+                                DatePicker(
+                                    "", selection: $publishDate, in:
+                                        Date()...
+                                ).datePickerStyle(StepperFieldDatePickerStyle()).disabled(publishStatus == "Immediate" ? true : false)
+                                
+                            }.padding()
                         }
                         
-                        //Publishing Status
-                        VStack(alignment: .leading) {
-                            Text("Publishing Setting").font(.title2).padding(
-                                .bottom)
-                            Text("Publish Status:").font(.title3)
-                            Menu(publishStatus) {
-                                Button(
-                                    action: {
-                                        publishStatus = "Schedule"
-                                    },
-                                    label: {
-                                        Text("Schedule")
-                                    })
-
-                                Button(
-                                    action: {
-                                        publishStatus = "Immediate"
-                                    },
-                                    label: {
-                                        Text("Immediate")
-                                    })
-                            }.frame(width: 200)
-                                .padding(.bottom)
-                            
-                            Text("Publish Date:")
-                            
-                            DatePicker(
-                                "", selection: $publishDate, in:
-                                    Date()...
-                            ).datePickerStyle(StepperFieldDatePickerStyle()).disabled(publishStatus == "Immediate" ? true : false)
-
-                    }.padding()
+                        // Generate Button
+                        Button(action: generateQuiz) {
+                            HStack {
+                                if isLoading {
+                                    ProgressView()
+                                } else {
+                                    Image(systemName: "sparkles")
+                                }
+                                Text("Generate Quiz")
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(PrimaryButtonStyle())
+                        .disabled(isLoading || selectedCourse.isEmpty || title.isEmpty)
                     }
                     
-                    // Generate Button
-                    Button(action: generateQuiz) {
-                        HStack {
-                            if isLoading {
-                                ProgressView()
-                            } else {
-                                Image(systemName: "sparkles")
-                            }
-                            Text("Generate Quiz")
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(PrimaryButtonStyle())
-                    .disabled(isLoading || selectedCourse.isEmpty || title.isEmpty)
+                    quizContent()
                 }
-                
-                // Generated Quiz Preview
-                if let quiz = generatedQuiz {
-                    GeneratedQuizPreview(quiz: quiz)
-                        .transition(.slide)
+                .padding(20)
+            }
+            .background(AppColors.background(for: colorScheme))
+            .alert("Enter all the fields to generate the quiz", isPresented: $showError){
+                Button("Ok"){
+                    showError = false
                 }
             }
-            .padding(20)
-        }
-            .background(AppColors.background(for: colorScheme))
-        
+            .alert("Quiz saved successfully ... ", isPresented: $quizIsSaved){
+                Button("Ok"){
+                    quizIsSaved = false
+                }
+            }
             .overlay(
-                        AIErrorModal(
-                            isPresented: $showErrorModal,
-                            errorMessage: "The AI service is currently overloaded. Please try again in a few minutes.",
-                            retryAction: {
-                                // Call your generate quiz function again
-                                generateQuiz()
-                            }
-                        )
-                        .opacity(showErrorModal ? 1 : 0)
-                        .animation(.spring(), value: showErrorModal)
-                    )
+                AIErrorModal(
+                    isPresented: $showErrorModal,
+                    errorMessage: "The AI service is currently overloaded. Please try again in a few minutes.",
+                    retryAction: {
+                        // Call your generate quiz function again
+                        generateQuiz()
+                    }
+                )
+                .opacity(showErrorModal ? 1 : 0)
+                .animation(.spring(), value: showErrorModal)
+            )
+            .onChange(of: showQuizPreview) {
+                    withAnimation {
+                        proxy.scrollTo("bottom", anchor: .bottom)
+                }
+            }
+        }
     }
     
     private func convertJSONStringToDictionary(_ jsonString: String) -> [String: Any]? {
@@ -189,7 +212,7 @@ struct CreateQuizWithAI: View {
     
     private func generateQuiz() {
         if(selectedCourse.isEmpty || title.isEmpty || description.isEmpty || publishStatus == "Select..."){
-            //show a error
+            showError = true
             return
         }
         isLoading = true
@@ -198,9 +221,11 @@ struct CreateQuizWithAI: View {
         
         apiClient.sendMessage(course: selectedCourse, title: title, description: description, difficulty: difficulty, numberOfQuestions: questionCount) { response in
             DispatchQueue.main.async {
-                let aiResponse = response ?? "No response"
-                //Comvert jsonstring to dictionary
-                if(aiResponse != "No response"){
+                
+                guard let aiResponse = response else {return}
+                //Convert jsonstring to dictionary
+                if(aiResponse != "No response" && !aiResponse.lowercased().contains("error")){
+                    showQuizPreview = true
                     guard
                         let dict = convertJSONStringToDictionary(aiResponse),
                               let questionData = dict["questionsData"] as? [[String: Any]] // key may vary (e.g. "questionData")
@@ -221,6 +246,7 @@ struct CreateQuizWithAI: View {
                     isLoading = false
                 }else{
                     showErrorModal = true
+                    isLoading = false
                 }
             }
         }
@@ -231,6 +257,8 @@ struct CreateQuizWithAI: View {
 struct GeneratedQuizPreview: View {
     let quiz: [String: Any]
     @State private var isExpanded = false
+    @Binding var showQuizPreview: Bool
+    @Binding var quizIsSaved: Bool
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         VStack(spacing: 16) {
@@ -280,6 +308,10 @@ struct GeneratedQuizPreview: View {
                             duration: quiz["duration"] as? Int ?? 0,
                             publishDate: quiz["publishDate"] as? Date ?? Date()
                         )
+                    withAnimation{
+                        showQuizPreview = false
+                        quizIsSaved = true
+                    }
                 }
                 .buttonStyle(PrimaryButtonStyle())
                 .frame(width: 250)
