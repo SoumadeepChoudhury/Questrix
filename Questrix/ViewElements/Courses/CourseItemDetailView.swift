@@ -8,145 +8,224 @@
 import SwiftUI
 
 struct CourseItemDetailView: View {
+    @EnvironmentObject var quizArray: QuizArray
     
-    @EnvironmentObject var QUIZARRAY: QuizArray
     
-
-    var courseTitle: String
-    @Binding var isTapped: Bool
+    let courseTitle: String
     @Binding var selectedTab: String
+    var _dismiss: () -> Void
+    @Environment(\.colorScheme) var colorScheme
     
-
+    var filteredQuizzes: [QuizData] {
+        quizArray.quizzes.filter { $0.course == courseTitle }
+    }
+    
     var body: some View {
-//        let QUIZZES: [QuizData] = ContentView.fileManager.getQuizzes(selectedCourse: courseTitle)
-
-        if !QUIZARRAY.quizzes.isEmpty {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))]) {
-                    ForEach(QUIZARRAY.quizzes) { quiz in
-                        if(courseTitle == quiz.course){
-                            QuizItemView(
-                                title: quiz.title, releaseDate: quiz.releaseDate,
-                                duration: "\(quiz.duration)",
-                                totalQuestions: quiz.questionsData.count,
-                                isAttempted: quiz.isAttempted,
-                                isDrafted: quiz.isDrafted,
-                                courseName: quiz.course,
-                                selectedTab: $selectedTab)
+        VStack(spacing: 0) {
+            // Header
+        
+            HStack {
+                VStack(alignment: .leading){
+                    Button(action: { _dismiss() }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "chevron.left")
+                            Text("Back to Courses")
+                        }
+                        .font(AppFonts.headline)
+                        .foregroundColor(AppColors.primary)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.bottom,4)
+                    
+                    Text(courseTitle)
+                        .font(AppFonts.title)
+                        .lineLimit(1)
+                    
+                }
+                .padding()
+                Spacer()
+            }
+            
+            
+            
+            // Content
+            if filteredQuizzes.isEmpty {
+                EmptyStateView(
+                    icon: "questionmark.folder",
+                    title: "No Quizzes Yet",
+                    message: "Create your first quiz for this course to get started."
+                )
+                .padding(.top, 40)
+            } else {
+                ScrollView {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 300), spacing: 20)],
+                        spacing: 20
+                    ) {
+                        ForEach(filteredQuizzes) { quiz in
+                            QuizCard(
+                                quiz: quiz,
+                                actionType: quiz.isAttempted ? .review : .start
+                            )
                         }
                     }
+                    .padding()
                 }
-            }.toolbar(content: {
-                Image(systemName: "arrowshape.turn.up.backward").font(.title)
-                    .onTapGesture {
-                        self.isTapped = false
-                    }
-            })
+            }
         }
-        else{
-            Spacer()
-            Image(systemName: "hockey.puck").resizable().frame(width: 300,height: 300).opacity(0.2).toolbar(content: {
-                Image(systemName: "arrowshape.turn.up.backward").font(.title)
-                    .onTapGesture {
-                        self.isTapped = false
-                    }
-            })
-        }
-        Spacer()
+        .background(AppColors.background(for: colorScheme))
+        .navigationTitle(courseTitle)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-struct QuizItemView: View {
-    
+// MARK: - Quiz Card Component
+struct QuizCard: View {
+    @EnvironmentObject var startQuiz: StartQuiz
     @Environment(\.openWindow) var openWindow
-    @EnvironmentObject var STARTQUIZ: StartQuiz
+    @Environment(\.colorScheme) var colorScheme
     
-    var title: String
-    var releaseDate: Date
-    var duration: String
-    var totalQuestions: Int
-    var isAttempted: Bool
-    var isDrafted: Bool = false
-    var course: String = ""
-    var courseName: String = ""
-    @State var isDeleteTapped:Bool = false
-    @Binding var selectedTab: String
-    var newORstartButtonText: String = "New"
-
+    let quiz: QuizData
+    let actionType: QuizActionType
+    @State private var showDeleteConfirmation: Bool = false
+    
+    @State private var isActionSucessful: Bool = false
+    
+    enum QuizActionType {
+        case start, reAttempt, review
+    }
+    
     var body: some View {
-        GroupBox {
-            VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: "document.on.document").font(.title)
-                    Text(title).font(.title).fontWeight(.semibold).lineLimit(1)
-                        .help(title)
-                    Spacer()
-                    if(course.isEmpty){
-                        Image(systemName: "trash").onTapGesture {
-                            //code : delete quiz
-                            isDeleteTapped = true
-                        }.alert("Are you sure to delete \(title).", isPresented: $isDeleteTapped, actions: {
-                            Button("Yes"){
-                                isDeleteTapped = false
-                                ContentView.fileManager.deleteQuiz(course: courseName,title: title,isSubmitted: false)
-                            }
-                        })
+        VStack(alignment: .leading, spacing: 16) {
+            // Header
+            HStack(alignment: .top) {
+                Image(systemName: "clock.badge.checkmark")
+                    .font(.title2)
+                    .foregroundColor(AppColors.accent)
+                    .frame(width: 44, height: 44)
+                    .background(AppColors.accent.opacity(0.1))
+                    .cornerRadius(AppShapes.smallCornerRadius)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(quiz.title)
+                        .font(AppFonts.headline)
+                        .lineLimit(2)
+                    
+                    Text(quiz.course)
+                        .font(AppFonts.caption)
+                        .foregroundColor(AppColors.textSecondary(for: colorScheme))
+                }
+                
+                Spacer()
+                
+                Image(systemName: "xmark")
+                    .onTapGesture{
+                        showDeleteConfirmation = true
                     }
-                }.padding(.bottom)
-                if(!course.isEmpty){
-                    Text("Course: \(course)")
-                }
-                Text("Total Questions: \(totalQuestions)")
-                HStack {
-                    Text("Duration: ")
-                    Text("\(duration) min").lineLimit(1).help(
-                        duration)
-                }
-                HStack {
-                    Text("Release Date: ").lineLimit(1)
-                    Text(releaseDate, style: .date).lineLimit(1).help(
-                        releaseDate.formatted())
-                }
-            }.padding()
-            Button(
-                action: {
-                    if(isDrafted){
-                        ContentView.fileManager.setDraftDataSet(course: courseName, title: title)
-                        ContentView.fileManager.isRefferedFromEdit = true
-                        selectedTab = "Create a Quiz"
-                    }else if(!isDrafted && (newORstartButtonText == "Start" || newORstartButtonText == "Re-Attempt")){
-                        STARTQUIZ.course = course
-                        STARTQUIZ.title = title
-                        if(newORstartButtonText == "Re-Attempt"){
-                            STARTQUIZ.isReAttempt = true
-                            STARTQUIZ.isReview = false
+                    .alert("Are you sure?",isPresented: $showDeleteConfirmation){
+                        Button("Yes"){
+                            //delete
+                            ContentView.fileManager.deleteQuiz(course: quiz.course, title: quiz.title, isSubmitted: quiz.isAttempted)
+                            isActionSucessful = true
                         }
-                        openWindow(id: "PractisePage")
-                    } else if(isAttempted){
-                        STARTQUIZ.course = courseName
-                        STARTQUIZ.title = title
-                        STARTQUIZ.isReview = true
-                        STARTQUIZ.isReAttempt = false
-                        openWindow(id: "PractisePage")
+                        Button("No"){
+                            showDeleteConfirmation = false
+                        }
                     }
-                },
-                label: {
-                    if(isAttempted && newORstartButtonText != "Re-Attempt"){
-                        Text("Review")
-                    }else if(isDrafted){
-                        Text("Edit")
-                    }else{
-                        Text(newORstartButtonText)
+                    .alert("\(quiz.title) Sucessfully deleted",isPresented: $isActionSucessful){
+                        Button("Ok"){
+                            isActionSucessful = false
+                        }
                     }
+            }
+            
+            // Details
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundColor(AppColors.textSecondary(for: colorScheme))
+                    Text("\(quiz.questionsData.count) questions")
+                        .font(AppFonts.caption)
                 }
-            )
-            .foregroundStyle(isAttempted ? .blue : (isDrafted ? .red : .green))
-            .buttonStyle(.borderless)
-            .overlay(content: {
-                Capsule().stroke(lineWidth: 1)
-                    .foregroundStyle(isAttempted ? .blue : (isDrafted ? .red : .green))
-                    .frame(width: 100, height: 20)
-            })
+                
+                HStack {
+                    Image(systemName: "clock")
+                        .foregroundColor(AppColors.textSecondary(for: colorScheme))
+                    Text("\(quiz.duration) min duration")
+                        .font(AppFonts.caption)
+                }
+                
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(AppColors.textSecondary(for: colorScheme))
+                    Text("Released \(quiz.releaseDate.formatted(date: .abbreviated, time: .omitted))")
+                        .font(AppFonts.caption)
+                }
+            }
+            
+            // Action Button
+            Button(action: handleAction) {
+                HStack {
+                    Text(buttonTitle)
+                    Spacer()
+                    Image(systemName: "arrow.right")
+                }
+                .font(AppFonts.headline)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 12)
+                .frame(maxWidth: .infinity)
+                .background(buttonBackground)
+                .foregroundColor(buttonForeground)
+                .cornerRadius(AppShapes.smallCornerRadius)
+            }
+            .buttonStyle(.plain)
         }
+        .padding(20)
+        .background(AppColors.cardBackground(for: colorScheme))
+        .cornerRadius(AppShapes.mediumCornerRadius)
+        .shadow(color: AppColors.primary.opacity(0.05), radius: 8, x: 0, y: 4)
+    }
+    
+    private var buttonTitle: String {
+        switch actionType {
+        case .start: return "Start Quiz"
+        case .reAttempt: return "Re-Attempt"
+        case .review: return "Review"
+        }
+    }
+    
+    private var buttonBackground: some View {
+        switch actionType {
+        case .start: return AppColors.primary.opacity(0.1)
+        case .reAttempt: return AppColors.accent.opacity(0.1)
+        case .review: return AppColors.secondary.opacity(0.1)
+        }
+    }
+    
+    private var buttonForeground: Color {
+        switch actionType {
+        case .start: return AppColors.primary
+        case .reAttempt: return AppColors.accent
+        case .review: return AppColors.secondary
+        }
+    }
+    
+    private func handleAction() {
+        startQuiz.course = quiz.course
+        startQuiz.title = quiz.title
+        
+        switch actionType {
+        case .start:
+            startQuiz.isReAttempt = false
+            startQuiz.isReview = false
+        case .reAttempt:
+            startQuiz.isReAttempt = true
+            startQuiz.isReview = false
+        case .review:
+            startQuiz.isReAttempt = false
+            startQuiz.isReview = true
+        }
+        
+        openWindow(id: "PractisePage")
     }
 }

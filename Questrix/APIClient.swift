@@ -11,7 +11,7 @@ class GeminiAPI {
     private let endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     private let apiKey = Secrets.aiAPIKey
 
-    func sendMessage(userInput: String, completion: @escaping (String?) -> Void) {
+    func sendMessage(course: String,title:String, description: String,difficulty: String,numberOfQuestions: Int, completion: @escaping (String?) -> Void) {
         // Build URL with API key as query parameter
         guard var components = URLComponents(string: endpoint) else {
             completion("Invalid endpoint")
@@ -23,6 +23,46 @@ class GeminiAPI {
             completion("Failed to build URL")
             return
         }
+        
+        let prompt = """
+        Create a quiz based on the following details.
+
+        Course: \(course)
+        Title: \(title)
+        Description: \(description)
+        Difficulty: \(difficulty)
+        Number of Questions: \(numberOfQuestions)
+
+        Each question should be either:
+        - A simple text question with a text-based correct answer.
+        - Or a multiple-choice question (MCQ) with a list of answer options and one correct option.
+
+        The output format should strictly follow this Swift structure and be returned in JSON:
+
+        struct QuizData: Identifiable {
+            let questionsData: [[String: Any]] // Array of questions
+        }
+
+        Each item in `questionsData` should look like this:
+        - For text answer type:
+          { "question": "What is ...?", "correct_answer": "Answer", "points": "5" }
+
+        - For MCQ:
+          {
+            "question": "Which of the following is ...?",
+            "answer_options": ["Option A", "Option B", "Option C", "Option D"],
+            "correct_answer": "Option B",
+            "points": "5"
+          }
+
+        ⚠️ IMPORTANT:
+        - Return the entire `QuizData` object as a single JSON.
+        - Keep `duration` realistic based on the number of questions (e.g. 1 min/question).
+        - Use today's date in ISO format for `releaseDate`.
+        - Do not include Swift code — just JSON.
+
+        Now generate the full quiz as described.
+        """
 
         // Build request
         var request = URLRequest(url: url)
@@ -32,7 +72,7 @@ class GeminiAPI {
         // Build JSON body
         let requestBody = GeminiRequest(
             contents: [
-                .init(parts: [.init(text: userInput)])
+                .init(parts: [.init(text: prompt)])
             ]
         )
 

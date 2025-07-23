@@ -20,11 +20,11 @@ struct ApiView: View {
                 .padding()
 
             Button("Send") {
-                apiClient.sendMessage(userInput: userInput) { response in
-                    DispatchQueue.main.async {
-                        aiResponse = response ?? "No response"
-                    }
-                }
+//                apiClient.sendMessage(userInput: userInput) { response in
+//                    DispatchQueue.main.async {
+//                        aiResponse = response ?? "No response"
+//                    }
+//                }
             }
             .padding()
 

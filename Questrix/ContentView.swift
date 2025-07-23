@@ -24,7 +24,7 @@ struct ContentView: View {
     var body: some View {
 //        ApiView()
         NavigationSplitView(columnVisibility: $sideBarVisibility) {
-            let SideBar:SideBar=SideBar(selectedTab: self.$selectedTab)
+            let SideBar:SidebarView=SidebarView(selectedTab: self.$selectedTab)
             SideBar.onAppear(perform: {
                 ContentView.fileManager = FileManagement(coursesArray: COURSESARRAY,quizArray: QUIZARRAY,user: USER,bookmark: BOOKMARK)
                 ContentView.fileManager.getCourses()
@@ -36,6 +36,7 @@ struct ContentView: View {
             case "Dashboard":Dashboard()
             case "Courses":Courses(selectedTab: $selectedTab)
             case "Create a Quiz":CreateQuiz()
+            case "Create Quiz with AI":CreateQuizWithAI()
             case "Upcoming Quizzes":UpcomingQuizzes()
             case "Bookmarks":Bookmarks()
             default:Dashboard()
@@ -63,8 +64,4 @@ struct VisualEffectView: NSViewRepresentable {
 
 #Preview {
     ContentView().environmentObject(CoursesArray()).environmentObject(QuizArray()).environmentObject(User()).environmentObject(BookmarkData())
-}
-
-#Preview {
-    ContentView().preferredColorScheme(.light).environmentObject(CoursesArray())
 }

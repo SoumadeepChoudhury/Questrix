@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateQuiz: View {
     
     @EnvironmentObject var QUIZARRAY: QuizArray
+    @Environment(\.colorScheme) var colorScheme
     
     @State var step: Int = 1
     
@@ -176,6 +177,7 @@ struct CreateQuiz: View {
             
             Spacer()
         }.padding()
+            .background(AppColors.background(for: colorScheme))
     }
 }
 

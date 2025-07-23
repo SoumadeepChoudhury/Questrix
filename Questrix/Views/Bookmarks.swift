@@ -1,85 +1,93 @@
-//
-//  Bookmarks.swift
-//  Questrix
-//
-//  Created by Soumadeep Choudhury on 19/09/24.
-//
-
 import SwiftUI
 
 struct Bookmarks: View {
+    @EnvironmentObject var bookmarkData: BookmarkData
+    @EnvironmentObject var COURSEARRAY: CoursesArray
+    @State private var selectedCourse: String = "All Courses"
+    @State private var searchText: String = ""
     
-    @EnvironmentObject var BOOKMARK: BookmarkData
+    @Environment(\.colorScheme) var colorScheme
     
-    @State var selectedCourse: String = "Select..."
-    @State var search: String = ""
-    @State var coursesPresent: [String] = []
+    var filteredBookmarks: [Bookmark] {
+        var filtered = bookmarkData.bookmarks
+        
+        // Filter by selected course
+        if selectedCourse != "All Courses" {
+            filtered = filtered.filter { $0.course == selectedCourse }
+        }
+        
+        // Filter by search text
+        if !searchText.isEmpty {
+            filtered = filtered.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText) ||
+                $0.course.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+        
+        return filtered
+    }
     
-    
-    
-/*
- Bookmark(id: "D8CFBFD0-E6A8-485A-BB36-30D292531710", course: "Spanish", title: "Quiz 1", decripton: "", questionData: [])
- Bookmark(id: "4F336D51-115B-464E-A339-1B25106192E9", course: "English", title: "Quiz 1", decripton: "", questionData: [])
- Bookmark(id: "F9DE4319-F4F5-4B3B-9F39-BC2EC40FA4A3", course: "Spanish", title: "Quiz 2", decripton: "", questionData: [])
- */
+    var availableCourses: [String] {
+        var courses = Set<String>()
+        COURSEARRAY.courses.forEach { courses.insert($0.title) }
+        return ["All Courses"] + courses.sorted()
+    }
     
     var body: some View {
-        VStack{
-            //DateTime
-            DateTime().onAppear(perform: {
-                ContentView.fileManager.getBookmarks()
-                BOOKMARK.bookmarks.forEach({ item in
-                    if !coursesPresent.contains(item.course){
-                        coursesPresent.append(item.course)
-                    }
-                })
-            })
+        VStack(spacing: 0) {
+            // Header
+            BookmarkHeader(
+                selectedCourse: $selectedCourse,
+                searchText: $searchText,
+                courses: availableCourses
+            )
+            .padding(.horizontal)
+            .padding(.top, 12)
+            .background(AppColors.cardBackground(for: colorScheme))
+            .shadow(color: Color.black.opacity(0.05), radius: 4, y: 2)
             
-            //Title
-            BookmarkTitle(course: $selectedCourse,coursesPresent: $coursesPresent)
-            
-            if(!BOOKMARK.bookmarks.isEmpty){
-                ScrollView{
-                    VStack(alignment: .leading){
-                        ForEach(selectedCourse == "Select..." ? 0..<coursesPresent.count : 0..<1, id: \.self){ courseIndex in
-                            if(selectedCourse == "Select..."){
-                                Text(coursesPresent[courseIndex]).font(.title).fontWeight(.semibold)
-                                Divider()
-                            }else{
-                                GroupBox{
-                                    HStack{
-                                        Image(systemName: "magnifyingglass")
-                                        TextField("Search",text: $search).textFieldStyle(PlainTextFieldStyle())
-                                    }
-                                }
-                            }
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))]){
-                                ForEach(BOOKMARK.bookmarks){ bMark in
-                                    if(!search.isEmpty){
-                                        if(bMark.title.contains(search) && bMark.course == selectedCourse){
-                                            BookmarkItem(course: bMark.course,title: bMark.title, bookmarked: bMark.questionData.count,bookmarkedQuestions: bMark.questionData)
-                                        }
-                                    }else{
-                                        if(bMark.course == (selectedCourse == "Select..." ? coursesPresent[courseIndex] : selectedCourse)){
-                                            BookmarkItem(course: bMark.course,title: bMark.title,bookmarked: bMark.questionData.count,bookmarkedQuestions: bMark.questionData)
-                                        }
-                                    }
-                                }
-                            }
-                            
+            // Content
+            if bookmarkData.bookmarks.isEmpty {
+                EmptyStateView(
+                    icon: "bookmark",
+                    title: "No Bookmarks Yet",
+                    message: "Save important questions by bookmarking them during quizzes."
+                )
+                .padding(.top, 40)
+            } else if filteredBookmarks.isEmpty {
+                EmptyStateView(
+                    icon: "magnifyingglass",
+                    title: "No Matching Bookmarks",
+                    message: "Try adjusting your filters to find what you're looking for."
+                )
+                .padding(.top, 40)
+            } else {
+                ScrollView {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 300), spacing: 20)],
+                        spacing: 20
+                    ) {
+                        ForEach(filteredBookmarks) { bookmark in
+                            BookmarkCard(bookmark: bookmark)
+                                .transition(.scale.combined(with: .opacity))
                         }
                     }
+                    .padding()
                 }
-            }else{
-                Spacer()
-                Image(systemName: "hockey.puck").resizable().frame(width:300,height: 300).opacity(0.1)
             }
             
             Spacer()
-        }.padding()
+        }
+        .background(AppColors.background(for: colorScheme))
+        .navigationTitle("Bookmarks")
+        .onAppear {
+            ContentView.fileManager.getBookmarks()
+        }
     }
 }
 
 #Preview {
     Bookmarks()
+        .environmentObject(BookmarkData.sampleData)
+        .frame(width: 800, height: 600)
 }

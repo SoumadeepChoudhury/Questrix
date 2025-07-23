@@ -103,12 +103,12 @@ struct DetailBar: View {
                             latestAnswersIfReviewed = STARTQUIZ.isReview ? quizData["LatestAnswers"] as! [String] : []
                             questionDataSet.forEach({ question in
                                 var questionType: String
-                                if((question["attached_file_url"] as! String).isEmpty){
+                                if(question["attached_file_url"] == nil || (question["attached_file_url"] as! String).isEmpty){
                                     questionType = "TBQ"
                                 }else{
                                     questionType = "FAQ"
                                 }
-                                questionData.append(QuestionData(question: question["question"] as! String, questionType: questionType, attachedFileURL: question["attached_file_url"] as! String, options: question["answer_options"] as! [String], correctAnswer: question["correct_answer"] as! String, points: Int(question["points"] as! String) ?? 0))
+                                questionData.append(QuestionData(question: question["question"] as! String, questionType: questionType, attachedFileURL: question["attached_file_url"] as? String ?? "", options: question["answer_options"] as? [String] ?? [], correctAnswer: question["correct_answer"] as! String, points: Int(question["points"] as! String) ?? 0))
                                 
                             })
                         }

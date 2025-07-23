@@ -8,45 +8,79 @@
 import SwiftUI
 
 struct UpcomingQuizzes: View {
+    @EnvironmentObject var quizArray: QuizArray
     
-    @EnvironmentObject var QUIZARRAY: QuizArray
-    @State var useLess: String = ""
-    @State var search: String = ""
-    @State var quizzesToDisplay: [QuizData] = []
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var searchText = ""
+    
+    
+    var filteredQuizzes: [QuizData] {
+        let availableQuizzes = quizArray.quizzes.filter {
+            $0.releaseDate <= Date() && !$0.isDrafted
+        }
+        
+        if searchText.isEmpty {
+            return availableQuizzes
+        } else {
+            return availableQuizzes.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText) ||
+                $0.course.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
     
     var body: some View {
-        VStack{
-            //DateTime
-            DateTime()
+        VStack(spacing: 0) {
+            // Header with search
+            UpcomingTitle(searchText: $searchText)
+                .padding(.horizontal)
+                .padding(.top, 12)
+                .background(AppColors.cardBackground(for: colorScheme))
+                .shadow(color: Color.black.opacity(0.05), radius: 4, y: 2)
             
-            //Title
-            UpcomingTitle(quiz: $quizzesToDisplay,search: $search).onAppear(perform: {
-                quizzesToDisplay = QUIZARRAY.quizzes
-            }).onChange(of: QUIZARRAY.quizzes.count, {
-                quizzesToDisplay = QUIZARRAY.quizzes
-            })
-            
-            //Quiz List
-            if(!QUIZARRAY.quizzes.isEmpty){
-                
-                ScrollView{
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))]){
-                        ForEach(search.isEmpty ? QUIZARRAY.quizzes : quizzesToDisplay){ quiz in
-                            if(quiz.releaseDate<=Date() && !quiz.isDrafted){
-                                QuizItemView(title: quiz.title, releaseDate: quiz.releaseDate, duration: "\(quiz.duration)", totalQuestions: quiz.questionsData.count, isAttempted: quiz.isAttempted,course: quiz.course,selectedTab: $useLess,newORstartButtonText: quiz.isAttempted ? "Re-Attempt" : "Start")
-                            }
+            // Content
+            if filteredQuizzes.isEmpty {
+                if quizArray.quizzes.isEmpty {
+                    EmptyStateView(
+                        icon: "calendar.badge.clock",
+                        title: "No Quizzes Available",
+                        message: "Create quizzes to see them listed here."
+                    )
+                } else {
+                    EmptyStateView(
+                        icon: "magnifyingglass",
+                        title: "No Matching Quizzes",
+                        message: "Try adjusting your search to find what you're looking for."
+                    )
+                }
+            } else {
+                ScrollView {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 300), spacing: 20)],
+                        spacing: 20
+                    ) {
+                        ForEach(filteredQuizzes) { quiz in
+                            QuizCard(
+                                quiz: quiz,
+                                actionType: quiz.isAttempted ? .reAttempt : .start
+                            )
+                            .transition(.scale.combined(with: .opacity))
                         }
                     }
+                    .padding()
                 }
-            }else{
-                Spacer()
-                Image(systemName: "hockey.puck").resizable().frame(width: 300,height: 300).opacity(0.2)
             }
+            
             Spacer()
-        }.padding()
+        }
+        .background(AppColors.background(for: colorScheme))
+        .navigationTitle("Upcoming Quizzes")
     }
 }
 
 #Preview {
     UpcomingQuizzes()
+        .environmentObject(QuizArray.sampleData)
+        .frame(width: 800, height: 600)
 }

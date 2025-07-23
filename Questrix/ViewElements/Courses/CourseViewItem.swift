@@ -6,43 +6,92 @@
 //
 
 import SwiftUI
-
-struct CourseViewItem: View {
+// MARK: - Course Card Component
+struct CourseCard: View {
+    let title: String
+    let drafts: Int
+    let quizzes: Int
+    let attempted: Int
+    let action: () -> Void
     
-    var title: String
-    var drafts: Int
-    var quizzes: Int
-    var attempted: Int
-    @State var isDeleted: Bool = false
-    @State var isTappedOnDelete: Bool = false
+    @State private var showAlertDialog: Bool = false
+    @State private var alertMsg: String = ""
+    
+    @State private var isActionSucessful: Bool = false
+    
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        if(!isDeleted){
-            GroupBox{
-                VStack(alignment: .leading){
-                    HStack{
-                        Image(systemName: "book").font(.title)
-                        Text(title).font(.title).fontWeight(.semibold).lineLimit(1).help(title)
-                        Spacer()
-                        Image(systemName: "trash").onTapGesture{
-                            //Delete course
-                            isTappedOnDelete.toggle()
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 16) {
+                // Header
+                HStack(spacing: 12) {
+                    Image(systemName: "book.closed.fill")
+                        .font(.title2)
+                        .foregroundColor(AppColors.primary)
+                        .frame(width: 44, height: 44)
+                        .background(AppColors.primary.opacity(0.1))
+                        .cornerRadius(AppShapes.smallCornerRadius)
+                    
+                    Text(title)
+                        .font(AppFonts.headline)
+                        .foregroundColor(AppColors.textPrimary(for: colorScheme))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "xmark")
+                        .onTapGesture {
+                            //Ask to Delete the course
+                            showAlertDialog = true
                             
                         }
-                        .alert("Are you sure to delete \(title)",isPresented: $isTappedOnDelete){
+                        .alert("Are You Sure? Delete: \(title)", isPresented: $showAlertDialog){
                             Button("Yes"){
-                                isDeleted = ContentView.fileManager.deleteCourse(courseName: title)
+                                //Delete the course
+                                isActionSucessful = ContentView.fileManager.deleteCourse(courseName: title)
                             }
-                            Button("Cancel"){
-                                isTappedOnDelete.toggle()
+                            Button("No"){
+                                showAlertDialog.toggle()
                             }
                         }
-                    }.padding(.bottom)
-                    Text("Drafts: \(drafts)")
-                    Text("Quizzes: \(quizzes)")
-                    Text("Attempted: \(attempted)")
-                }.padding()
-            }.background(.ultraThinMaterial)
+                        .alert("\(title) deleted sucessfully", isPresented: $isActionSucessful){ Button("Ok"){
+                                isActionSucessful = false
+                            }
+                        }
+                }
+                
+                // Stats
+                HStack(spacing: 16) {
+                    StatPill(
+                        icon: "doc.text",
+                        value: "\(drafts)",
+                        label: "Drafts",
+                        color: AppColors.secondary
+                    )
+                    
+                    StatPill(
+                        icon: "questionmark.square",
+                        value: "\(quizzes)",
+                        label: "Quizzes",
+                        color: AppColors.accent
+                    )
+                    
+                    StatPill(
+                        icon: "checkmark.square",
+                        value: "\(attempted)",
+                        label: "Attempted",
+                        color: AppColors.primary
+                    )
+                }
+            }
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(AppColors.cardBackground(for: colorScheme))
+            .cornerRadius(AppShapes.mediumCornerRadius)
+            .shadow(color: AppColors.primary.opacity(0.05), radius: 8, x: 0, y: 4)
         }
+        .buttonStyle(.plain)
     }
 }

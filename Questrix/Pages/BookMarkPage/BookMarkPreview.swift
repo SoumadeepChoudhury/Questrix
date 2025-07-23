@@ -80,18 +80,18 @@ struct RightPane: View {
                     ScrollView {
                     VStack(alignment: .leading) {
                         HStack{
-                            Text(!(STARTQUIZ.questionData[questionCounter]["answer_options"] as! [String]).isEmpty ? "MULTIPLE CHOICE QUESTION" : "TYPE ANSWER - QUESTION").font(.callout).opacity(
+                            Text(!(STARTQUIZ.questionData[questionCounter]["answer_options"] as? [String] ?? []).isEmpty ? "MULTIPLE CHOICE QUESTION" : "TYPE ANSWER - QUESTION").font(.callout).opacity(
                                 0.8
                             ).padding(.bottom, 5).onAppear(perform: {
                                 correctAnswer = STARTQUIZ.questionData[questionCounter]["correct_answer"] as! String
-                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String
+                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as? String ?? ""
                                 if(attachedFileURL.contains(".wav")){
                                     AUDIOPLAYER = AudioPlayer(filePath: attachedFileURL)
                                 }
                             }).onChange(of: questionCounter, {
 //                                AUDIOPLAYER.stopEngine()
                                 correctAnswer = STARTQUIZ.questionData[questionCounter]["correct_answer"] as! String
-                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as! String
+                                attachedFileURL = STARTQUIZ.questionData[questionCounter]["attached_file_url"] as? String ?? ""
                                 if(attachedFileURL.contains(".wav")){
                                     AUDIOPLAYER = AudioPlayer(filePath: attachedFileURL)
                                 }
@@ -118,7 +118,7 @@ struct RightPane: View {
                         
                         
                         Divider().padding(.bottom)
-                        if(!(STARTQUIZ.questionData[questionCounter]["answer_options"] as! [String]).isEmpty){
+                        if(!(STARTQUIZ.questionData[questionCounter]["answer_options"] as? [String] ?? []).isEmpty){
                             ForEach(0..<(STARTQUIZ.questionData[questionCounter]["answer_options"] as! [String]).count,id: \.self) { index in
                                 Button(
                                     action: {

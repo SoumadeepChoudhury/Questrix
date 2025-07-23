@@ -7,36 +7,65 @@
 
 import SwiftUI
 
-struct ContentOverview: View {
-    @EnvironmentObject var COURSEARRAY: CoursesArray
-    @EnvironmentObject var QUIZARRAY: QuizArray
-    
+struct StatsOverviewView: View {
+    @EnvironmentObject var courseArray: CoursesArray
+    @EnvironmentObject var quizArray: QuizArray
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
-        HStack {
-//            Spacer()
-            CardView(icon: "book", title: "Total Courses", numberOfItems: COURSEARRAY.courses.count)
-            Spacer()
-            CardView(icon: "questionmark.text.page", title: "Total Quizzes Created", numberOfItems: QUIZARRAY.quizzes.count)
-            Spacer()
-            CardView(icon: "square.and.pencil.circle", title: "Total Quizzes Attempted", numberOfItems: ContentView.fileManager.getAttemptedQuizCount())
-//            Spacer()
+        HStack(spacing: 16) {
+            StatCard(
+                icon: "book",
+                value: "\(courseArray.courses.count)",
+                title: "Courses",
+                color: AppColors.primary
+            )
+            
+            StatCard(
+                icon: "questionmark.square",
+                value: "\(quizArray.quizzes.count)",
+                title: "Quizzes",
+                color: AppColors.secondary
+            )
+            
+            StatCard(
+                icon: "checkmark.square",
+                value: "\(ContentView.fileManager.getAttemptedQuizCount())",
+                title: "Attempted",
+                color: AppColors.accent
+            )
         }
     }
 }
 
-
-struct CardView: View {
-    var icon: String
-    var title: String
-    var numberOfItems: Int
-    var body: some View {
-        GroupBox{
-            VStack(){
-                Image(systemName: icon).font(.title)
-                Text(title).font(.title).fontWeight(.semibold)
-                Text("\(numberOfItems)").font(.title)
-            }
-        }
-    }
+struct StatCard: View {
+    let icon: String
+    let value: String
+    let title: String
+    let color: Color
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(color)
+                .frame(width: 44, height: 44)
+                .background(color.opacity(0.1))
+                .cornerRadius(AppShapes.smallCornerRadius)
+            
+            Text(value)
+                .font(.system(size: 28, weight: .bold, design: .rounded))
+                .foregroundColor(AppColors.textPrimary(for: colorScheme))
+            
+            Text(title)
+                .font(AppFonts.caption)
+                .foregroundColor(AppColors.textSecondary(for: colorScheme))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(16)
+        .background(AppColors.cardBackground(for: colorScheme))
+        .cornerRadius(AppShapes.mediumCornerRadius)
+        .shadow(color: color.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
 }

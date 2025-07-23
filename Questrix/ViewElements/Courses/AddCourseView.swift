@@ -8,46 +8,79 @@
 import SwiftUI
 
 struct AddCourseView: View {
-    
+    @Environment(\.dismiss) var dismiss
     @Binding var courseName: String
-    @State var alertTitle: String = ""
-    @State var isAlertShown: Bool = false
+    @State private var alertTitle: String = ""
+    @State private var isAlertShown: Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        VStack(alignment: .leading){
-            HStack{
-                Text("Course Name: ").font(.title3).fontWeight(.semibold)
-                TextField("Course Name...",text: $courseName).textFieldStyle(.roundedBorder)
+        VStack(spacing: 24) {
+            // Header
+            VStack(alignment: .leading, spacing: 8) {
+                Text("New Course")
+                    .font(AppFonts.largeTitle)
+                
+                Text("Create a new course to organize your quizzes")
+                    .font(AppFonts.body)
+                    .foregroundColor(AppColors.textSecondary(for: colorScheme))
             }
-            HStack{
-                Spacer()
-                Button(action:{
-                    if(!courseName.isEmpty){
-                        let returnVal: String = ContentView.fileManager.createCourses(courseName: courseName)
-                        if(returnVal == "Exist"){
-                            isAlertShown = true
-                            alertTitle = "Course already exists."
-                        }else if(returnVal == "Error"){
-                            isAlertShown = true
-                            alertTitle = "Some internal error occured. Try again."
-                        }else if(returnVal == "Created"){
-                            isAlertShown = false
-                            courseName = ""
-                        }
-                    }else{
-                        isAlertShown = true
-                        alertTitle = "Empty course name."
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            // Form
+            VStack(spacing: 16) {
+                TextField("Course Name", text: $courseName)
+                    .textFieldStyle(PremiumTextFieldStyle())
+                    .submitLabel(.done)
+                    .focusable(false)
+                
+                HStack(spacing: 16) {
+                    Button("Cancel") {
+                        dismiss()
                     }
-                },label: {
-                    Text("Add Course")
-                }).background(.thinMaterial).alert(alertTitle, isPresented: $isAlertShown, actions: {
-                    Button("Cancel"){
-                        isAlertShown = false
-                        alertTitle = ""
+                    .buttonStyle(SecondaryButtonStyle())
+                    .focusable(false)
+                    Button("Create Course") {
+                        createCourse()
                     }
-                })
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(courseName.isEmpty)
+                    .focusable(false)
+                }
+                .padding(.top, 8)
             }
-        }.padding()
+        }
+        .padding(24)
+        .frame(minWidth: 400, minHeight: 200)
+        .alert(alertTitle, isPresented: $isAlertShown) {
+            Button("OK", role: .cancel) {
+                if alertTitle == "Course created successfully!" {
+                    dismiss()
+                }
+            }
+        }
+    }
+    
+    private func createCourse() {
+        guard !courseName.isEmpty else {
+            alertTitle = "Course name cannot be empty"
+            isAlertShown = true
+            return
+        }
+        
+        let returnVal = ContentView.fileManager.createCourses(courseName: courseName)
+        
+        switch returnVal {
+        case "Exist":
+            alertTitle = "Course already exists"
+        case "Error":
+            alertTitle = "An error occurred. Please try again."
+        case "Created":
+            alertTitle = "Course created successfully!"
+        default:
+            alertTitle = "Unknown response"
+        }
+        
+        isAlertShown = true
     }
 }
-
